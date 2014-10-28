@@ -10,6 +10,9 @@ var star;
 var playState = {
   //no preload needed
   create: function(){
+    map = game.add.tilemap('level1');
+
+    map.addTilesetImage('cybernoid.png', 'tiles');
 
     score = 0;
     seconds = 30;

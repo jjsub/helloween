@@ -32,11 +32,11 @@
  "tilesets":[
         {
          "firstgid":1,
-         "image":"Cybernoid.png",
+         "image":"cybernoid.png",
          "imageheight":128,
          "imagewidth":176,
          "margin":0,
-         "name":"Cybernoid.png",
+         "name":"cybernoid.png",
          "properties":
             {
 
