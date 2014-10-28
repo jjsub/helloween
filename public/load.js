@@ -5,8 +5,8 @@ var loadState = {
     //make
     game.load.image('sky', '/img/sky.png');
     game.load.image('ground', '/img/platform.png');
-    game.load.image('cthulu', '/img/cthulu.png');
-    game.load.image('mummy', '/img/mummy.png');
+    game.load.spritesheet('cthulu', '/img/cthulu.png', 64, 64);
+    game.load.spritesheet('mummy', '/img/mummy.png', 80, 80);
     game.load.spritesheet('jack', '/img/jack.png', 80, 93);
     //Game Sound
     game.load.audio('game', 'assets/audio/Totta - Hero Quest - Pophousedub remix.mp3', 'assets/audio/Totta_-_Hero_Quest_-_Pophousedub_remix.ogg');
