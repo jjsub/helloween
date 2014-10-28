@@ -71,7 +71,7 @@ var playState = {
     ledge.body.immovable = true;
 
       // The player and its settings
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player = game.add.sprite(32, game.world.height - 250, 'jack');
 
     //  We need to enable physics on the player
     game.physics.arcade.enable(player);
@@ -82,18 +82,18 @@ var playState = {
     player.body.collideWorldBounds = true;
 
     //  Our two animations, walking left and right.
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    player.animations.add('left', [5, 6, 7], 10, true);
+    player.animations.add('right', [9, 10, 11], 10, true);
 
     //spawn 10 xs
-    stars = game.add.group();
-    stars.enableBody = true;
+    cthulus = game.add.group();
+    cthulus.enableBody = true;
 
     for(var i = 0; i < 10; i++){
-      star = stars.create(i * 70, 0, 'star');
-      star.body.gravity.y = 60;
-      star.body.bounce.y = 0.7 + Math.random() * 0.2;
-      star.body.collideWorldBounds = true;
+      cthulu = cthulus.create(i * 70, 0, 'cthulu');
+      cthulu.body.gravity.y = 60;
+      cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
+      cthulu.body.collideWorldBounds = true;
     };
 
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
@@ -103,51 +103,51 @@ var playState = {
 
     scoreText = game.add.text(16, 16, 'score: 0', style);
 
-    diamonds = game.add.group();
-    diamonds.enableBody = true;
+    mummies = game.add.group();
+    mummies.enableBody = true;
 
     this.emitter = game.add.emitter(0, 0, 100);
-    this.emitter.makeParticles('star');
+    this.emitter.makeParticles('cthulu');
   },
 
   moveItems: function(){
     //call this on a timer in create
     //will look like this:
 
-    stars.forEach(function(star){
+    cthulus.forEach(function(cthulu){
       var direction = Math.floor(Math.random() + .5);
 
       if(direction === 1){
-        star.body.velocity.x += 100;
+        cthulu.body.velocity.x += 100;
       }else if(direction === 0){
-        star.body.velocity.x -= 100;
+        cthulu.body.velocity.x -= 100;
       };
     }, this)
 
-    diamonds.forEach(function(diamond){
+    mummies.forEach(function(mummy){
       var direction = Math.floor(Math.random() + .5);
 
       if(direction === 1){
-        diamond.body.velocity.x += 100;
-        diamond.body.velocity.y += 100;
+        mummy.body.velocity.x += 100;
+        mummy.body.velocity.y += 100;
       }else if(direction === 0){
-        diamond.body.velocity.x -= 100;
-        diamond.body.velocity.y -= 100;
+        mummy.body.velocity.x -= 100;
+        mummy.body.velocity.y -= 100;
       };
     }, this)
   },
 
-  collectStar: function(player, star){
+  collectCthulu: function(player, cthulu){
 
-    // Removes the star from the screen
-    star.kill();
+    // Removes the cthulu from the screen
+    cthulu.kill();
     score += 20;
     scoreText.setText('Score: ' + score);
 
-    diamond = diamonds.create(game.world.randomX, 0, 'diamond');
-    diamond.body.gravity.y = 60;
-    diamond.body.bounce.y = 0.7 + Math.random() * 0.2;
-    diamond.body.collideWorldBounds = true;
+    mummy = mummies.create(game.world.randomX, 0, 'mummy');
+    mummy.body.gravity.y = 60;
+    mummy.body.bounce.y = 0.7 + Math.random() * 0.2;
+    mummy.body.collideWorldBounds = true;
 
     //collect Star Sound
     this.starSound = game.add.audio('star');
@@ -164,12 +164,12 @@ var playState = {
     this.emitter.start(true, 2000, null, 10);
   },
 
-  collectDiamond: function(player, diamond){
+  collectMummy: function(player, mummy){
 
-    //Removes the star from the screen
-    diamond.kill();
+    //Removes the mummy from the screen
+    mummy.kill();
 
-    //collect Diamond Sound
+    //collect mummy Sound
     this.diamondSound = game.add.audio('diamond');
     this.diamondSound.play();
 
@@ -177,8 +177,8 @@ var playState = {
     score += 40;
     scoreText.setText('Score: ' + score);
 
-    // Check for Diamonds
-    if(this.diamond <= 0)
+    // Check for mummies
+    if(this.mummy <= 0)
     {
       this.gameSound.stop();
       game.state.start('menu');
@@ -196,12 +196,12 @@ var playState = {
 
     //if timer reaches zero, play and animation and return to menu
     //stars collide with platforms
-    game.physics.arcade.collide(stars, platforms)
-    game.physics.arcade.collide(diamonds, platforms)
-    game.physics.arcade.collide(stars, diamonds)
+    game.physics.arcade.collide(cthulus, platforms)
+    game.physics.arcade.collide(mummies, platforms)
+    game.physics.arcade.collide(cthulus, mummies)
 
-    game.physics.arcade.overlap(player, stars, this.collectStar, null, this);
-    game.physics.arcade.overlap(player, diamonds, this.collectDiamond, null, this);
+    game.physics.arcade.overlap(player, cthulus, this.collectCthulu, null, this);
+    game.physics.arcade.overlap(player, mummies, this.collectMummy, null, this);
 
     //player collision w/ platform
     game.physics.arcade.collide(player, platforms);
