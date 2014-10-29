@@ -5,16 +5,198 @@
          "height":44,
          "name":"Level 1",
          "opacity":1,
+         "properties":
+            {
+             "collides":"true"
+            },
          "type":"tilelayer",
-         "properties": {
-          "collides": true
-         },
+         "visible":true,
+         "width":160,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":44,
+         "name":"Enemies",
+         "objects":[
+                {
+                 "gid":106,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":616,
+                 "y":178
+                }, 
+                {
+                 "gid":106,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":582,
+                 "y":534
+                }, 
+                {
+                 "gid":106,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":306,
+                 "y":576
+                }, 
+                {
+                 "gid":106,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":594,
+                 "y":339
+                }, 
+                {
+                 "gid":107,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":793,
+                 "y":439
+                }, 
+                {
+                 "gid":107,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":811,
+                 "y":281
+                }, 
+                {
+                 "gid":107,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1184,
+                 "y":168
+                }, 
+                {
+                 "gid":107,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1376,
+                 "y":537
+                }, 
+                {
+                 "gid":107,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1507,
+                 "y":537
+                }, 
+                {
+                 "gid":107,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1725,
+                 "y":528
+                }, 
+                {
+                 "gid":107,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1835,
+                 "y":438
+                }],
+         "opacity":1,
+         "type":"objectgroup",
          "visible":true,
          "width":160,
          "x":0,
          "y":0
         }],
  "orientation":"orthogonal",
+ "properties":
+    {
+
+    },
  "renderorder":"right-down",
  "tileheight":16,
  "tilesets":[
@@ -25,6 +207,25 @@
          "imagewidth":176,
          "margin":0,
          "name":"Cyber",
+         "properties":
+            {
+
+            },
+         "spacing":0,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "firstgid":89,
+         "image":"..\/..\/img\/cthulu.png",
+         "imageheight":256,
+         "imagewidth":256,
+         "margin":0,
+         "name":"cthulu",
+         "properties":
+            {
+
+            },
          "spacing":0,
          "tileheight":16,
          "tilewidth":16
