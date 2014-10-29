@@ -96,10 +96,16 @@ var playState = {
     game.physics.arcade.collide(cthulus, layer);
     game.physics.arcade.collide(mummies, layer);
 
+    //game.physics.arcade.collide(this.bullets, layer);
+
     game.physics.arcade.overlap(player, cthulus, this.collideCthulu, null, this);
     game.physics.arcade.overlap(player, mummies, this.collideMummy, null, this);
 
-    //player collision w/ platform
+    game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
+    game.physics.arcade.overlap(this.bullets, mummies, this.killMummy, null, this);
+    game.physics.arcade.overlap(this.bullets, layer, this.killBullet, null, this);
+
+    //player collision w/ walls and floor
     game.physics.arcade.collide(player, layer);
     cursors = game.input.keyboard.createCursorKeys();
 
@@ -137,12 +143,45 @@ var playState = {
     }, this)
   },
 
+  killCthulu: function(bullet, cthulu){
+    cthulu.kill();
+    bullet.kill();
+    //Add Kill Sound
+    this.killSound = game.add.audio('kill');
+    this.killSound.play();
+  },
+
+  killMummy: function(bullet, mummy){
+    mummy.kill();
+    bullet.kill();
+    //Add Kill Sound
+    this.killSound = game.add.audio('kill');
+    this.killSound.play();
+  },
+
+  killBullet: function(bullet){
+    bullet.kill();
+  },
+
+  restartGame: function(){
+    this.gameSound.stop();
+    game.state.start('menu');
+  },
+
   collideCthulu: function(player, cthulu){
-    //player.kill();
+    player.kill();
+    this.restartGame();
+    //Add Death Sound
+    this.deathSound = game.add.audio('death');
+    this.deathSound.play();
   },
 
   collideMummy: function(player, mummy){
-    //player.kill();
+    player.kill();
+    this.restartGame();
+    //Add Death Sound
+    this.deathSound = game.add.audio('death');
+    this.deathSound.play();
   },
 
   render: function(){
@@ -173,7 +212,7 @@ var playState = {
     if(cursors.up.isDown && player.body.onFloor())
     {
       player.body.velocity.y = -350;
-      //Add Game Sound
+      //Add Jump Sound
       this.jumpSound = game.add.audio('jump');
       this.jumpSound.play();
     }
@@ -197,5 +236,8 @@ var playState = {
         bullet.body.velocity.x = 600;
       }
     }
+
+    this.shootSound = game.add.audio('shoot');
+    this.shootSound.play();
   }
 };
