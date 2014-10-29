@@ -1,7 +1,5 @@
 var cursors;
 var cthulu;
-var cursors;
-var cthulu;
 var mummy;
 var platforms;
 var layer;
@@ -10,6 +8,9 @@ var map2;
 var key;
 var door;
 var shotTimer = 0;
+var score = 0;
+var scoreText;
+var style = {fontSize: '32px', fill: '#fff'};
 var playState2 = {
   //no preload needed
   create: function(){
@@ -26,6 +27,8 @@ var playState2 = {
     map.setCollisionByExclusion([7, 32, 35, 36, 47]);
     //map.setCollision(7);
     //map.setCollisionBetween(32, 47);
+
+    score = 0;
 
     layer.resizeWorld();
 
@@ -77,6 +80,11 @@ var playState2 = {
     // Call the 'shoot' function when the spacekey is hit
     var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     spaceKey.onDown.add(this.shoot, this);
+
+    scoreText = game.add.text(16, 16, 'score: 0', style);
+
+    this.emitter = game.add.emitter(0, 0, 100);
+    this.emitter.makeParticles('bullet');
   },
 
 
@@ -134,6 +142,14 @@ var playState2 = {
     //Add Kill Sound
     this.killSound = game.add.audio('kill');
     this.killSound.play();
+    score += 40;
+    scoreText.setText('Score: ' + score);
+
+    var x = Math.floor(Math.random() * 600 - 32),
+        y = Math.floor(Math.random() * 600 - 90);
+    this.emitter.x = x;
+    this.emitter.y = y;
+    this.emitter.start(true, 2000, null, 10);
   },
 
   killMummy: function(bullet, mummy){
@@ -142,6 +158,14 @@ var playState2 = {
     //Add Kill Sound
     this.killSound = game.add.audio('kill');
     this.killSound.play();
+    score += 20;
+    scoreText.text = 'Score: ' + score;
+
+    var x = Math.floor(Math.random() * 600 - 32),
+        y = Math.floor(Math.random() * 600 - 90);
+    this.emitter.x = x;
+    this.emitter.y = y;
+    this.emitter.start(true, 2000, null, 10);
   },
 
   killBullet: function(bullet){
