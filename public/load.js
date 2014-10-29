@@ -27,6 +27,8 @@ var loadState = {
     game.load.tilemap('lv2', 'assets/tilemaps/level2.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('level1', 'assets/tilemaps/cybernoid.png', 16, 16);
     game.load.image('level2', 'assets/tilemaps/cybernoid.png', 16, 16);
+    game.load.image('key', '/img/key-clipart-key.png');
+    game.load.image('door', '/img/Door.png');
   },
 
   create: function(){

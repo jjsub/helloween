@@ -4,6 +4,9 @@ var mummy;
 var platforms;
 var layer;
 var map;
+var map2;
+var key;
+var door;
 var shotTimer = 0;
 var playState = {
   //no preload needed
@@ -59,23 +62,12 @@ var playState = {
     map.createFromObjects('Enemies', 106, 'cthulu', 0, true, false, cthulus);
     map.createFromObjects('Enemies', 107, 'mummy', 0, true, false, mummies);
 
-/*
-    for(var i = 0; i < 10; i++){
-      //cthulu drawing
-      cthulu = cthulus.create(i * 70, 0, 'cthulu');
-      cthulu.animations.add('left', [4, 5, 6, 7], 10, true);
-      cthulu.animations.add('right', [8, 9, 10, 11], 10, true);
-      cthulu.body.gravity.y = 60;
-      cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
-      cthulu.body.collideWorldBounds = true;
+    key = game.add.sprite(150, 500, 'key');
+    game.physics.arcade.enable(key);
+    key.enableBody = true;
 
-      //mummy drawing
-      mummy = mummies.create(game.world.randomX, 0, 'mummy');
-      mummy.body.gravity.y = 60;
-      mummy.body.bounce.y = 0.7 + Math.random() * 0.2;
-      mummy.body.collideWorldBounds = true;
-    };
-*/
+   // map.createFromObjects('keys', 34, 'key', 0, true, false);
+
     //monster movement time
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
 
@@ -99,11 +91,13 @@ var playState = {
     game.physics.arcade.overlap(player, cthulus, this.collideCthulu, null, this);
     game.physics.arcade.overlap(player, mummies, this.collideMummy, null, this);
 
+    game.physics.arcade.overlap(player, key, this.openDoor, null, this);
+    game.physics.arcade.overlap(player, door, this.nextLevel, null, this);
+
     game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
     game.physics.arcade.overlap(this.bullets, mummies, this.killMummy, null, this);
     game.physics.arcade.overlap(this.bullets, layer, this.killBullet, null, this);
 
-    //player collision w/ walls and floor
     game.physics.arcade.collide(player, layer);
     cursors = game.input.keyboard.createCursorKeys();
 
@@ -159,6 +153,23 @@ var playState = {
 
   killBullet: function(bullet){
     bullet.kill();
+  },
+
+  //show door when player has key
+  openDoor: function(player, key){
+    key.destroy();
+    door = game.add.sprite(200, 500, 'door');
+    game.physics.arcade.enable(door);
+    door.enableBody = true;
+    //Add Key Sound
+    this.keySound = game.add.audio('key');
+    this.keySound.play();
+  },
+
+  //go to next level when player goes through door
+  nextLevel: function(player, door){
+    this.game.state.start('level2');
+
   },
 
   restartGame: function(){
