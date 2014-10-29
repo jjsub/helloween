@@ -66,23 +66,6 @@ var playState = {
     map.createFromObjects('Enemies', 106, 'cthulu', 0, true, false, cthulus);
     map.createFromObjects('Enemies', 107, 'mummy', 0, true, false, mummies);
 
-/*
-    for(var i = 0; i < 10; i++){
-      //cthulu drawing
-      cthulu = cthulus.create(i * 70, 0, 'cthulu');
-      cthulu.animations.add('left', [4, 5, 6, 7], 10, true);
-      cthulu.animations.add('right', [8, 9, 10, 11], 10, true);
-      cthulu.body.gravity.y = 60;
-      cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
-      cthulu.body.collideWorldBounds = true;
-
-      //mummy drawing
-      mummy = mummies.create(game.world.randomX, 0, 'mummy');
-      mummy.body.gravity.y = 60;
-      mummy.body.bounce.y = 0.7 + Math.random() * 0.2;
-      mummy.body.collideWorldBounds = true;
-    };
-*/
     //monster movement time
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
 
