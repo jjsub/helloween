@@ -191,6 +191,33 @@
          "width":160,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":44,
+         "name":"Key",
+         "objects":[
+                {
+                 "gid":67,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":348,
+                 "y":574
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":160,
+         "x":0,
+         "y":0
         }],
  "orientation":"orthogonal",
  "properties":

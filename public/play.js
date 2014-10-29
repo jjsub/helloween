@@ -69,11 +69,10 @@ var playState = {
     map.createFromObjects('Enemies', 106, 'cthulu', 0, true, false, cthulus);
     map.createFromObjects('Enemies', 107, 'mummy', 0, true, false, mummies);
 
-    key = game.add.sprite(150, 500, 'key');
-    game.physics.arcade.enable(key);
-    key.enableBody = true;
+    keys = game.add.group();
+    keys.enableBody = true;
 
-   // map.createFromObjects('keys', 34, 'key', 0, true, false);
+    map.createFromObjects('Key', 67, 'key', 0, true, false, keys);
 
     //monster movement time
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
@@ -148,7 +147,7 @@ var playState = {
 
     game.physics.arcade.overlap(player, cthulus, this.collectCthulu, null, this);
     game.physics.arcade.overlap(player, mummies, this.collectMummy, null, this);
-    game.physics.arcade.overlap(player, key, this.openDoor, null, this);
+    game.physics.arcade.overlap(player, keys, this.openDoor, null, this);
     game.physics.arcade.overlap(player, door, this.nextLevel, null, this);
 
     //player collision w/ platform
