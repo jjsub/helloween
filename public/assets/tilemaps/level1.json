@@ -5,16 +5,33 @@
          "height":44,
          "name":"Level 1",
          "opacity":1,
+         "properties":
+            {
+             "collides":"true"
+            },
          "type":"tilelayer",
-         "properties": {
-          "collides": true
-         },
+         "visible":true,
+         "width":160,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "height":44,
+         "name":"Object Layer 1",
+         "objects":[],
+         "opacity":1,
+         "type":"objectgroup",
          "visible":true,
          "width":160,
          "x":0,
          "y":0
         }],
  "orientation":"orthogonal",
+ "properties":
+    {
+
+    },
  "renderorder":"right-down",
  "tileheight":16,
  "tilesets":[
@@ -25,6 +42,10 @@
          "imagewidth":176,
          "margin":0,
          "name":"Cyber",
+         "properties":
+            {
+
+            },
          "spacing":0,
          "tileheight":16,
          "tilewidth":16

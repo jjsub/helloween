@@ -8,17 +8,17 @@ var map2;
 var key;
 var door;
 
-var playState = {
+var playState2 = {
   //no preload needed
   create: function(){
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //use the tilemap
-    map = game.add.tilemap('lv1');
-    map.addTilesetImage('Cyber', 'level1');
+    map = game.add.tilemap('lv2');
+    map.addTilesetImage('Cyber', 'level2');
 
     //draw level 1
-    layer = map.createLayer('Level 1');
+    layer = map.createLayer('Level 2');
 
     //set collision for blocks
     map.setCollisionByExclusion([7, 32, 35, 36, 47]);
@@ -140,7 +140,7 @@ var playState = {
 
   //go to next level when player goes through door
   nextLevel: function(player, door){
-    this.game.state.start('level2');
+    //game.state.start('playState2');
 
   },
 
