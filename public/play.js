@@ -6,7 +6,7 @@ var platforms;
 var playState = {
   //no preload needed
   create: function(){
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+      game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //background image
     game.add.sprite(0, 0, 'sky');
