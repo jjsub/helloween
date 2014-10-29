@@ -7,7 +7,7 @@ var map;
 var map2;
 var key;
 var door;
-
+var shotTimer = 0;
 var playState = {
   //no preload needed
   create: function(){
@@ -25,29 +25,22 @@ var playState = {
     //map.setCollision(7);
     //map.setCollisionBetween(32, 47);
 
-
     layer.resizeWorld();
-
-    //background image
-    //game.add.sprite(0, 0, 'sky');
-
 
     //draw player
     player = game.add.sprite(32, 0, 'jack');
-    player.width = 60;
-    player.height = 73;
+    player.width = 40;
+    player.height = 53;
 
     //enable physics on player
     game.physics.arcade.enable(player);
-    player.body.width = 60;
-    player.body.height = 73;
+    player.body.width = 30;
+    player.body.height = 53;
 
     //player.body.tilePadding.set(32, 32);
     
-
     //follow the player via camera
     game.camera.follow(player);
-
 
     //player physics
     player.body.bounce.y = 0.2;
@@ -79,9 +72,31 @@ var playState = {
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
 
     //game music
-    this.gameSound = game.add.audio('game');
+    this.gameSound = game.add.audio('ls1');
     this.gameSound.play();
 
+    this.bullets = game.add.group();
+    this.bullets.enableBody = true;
+
+    // Call the 'shoot' function when the spacekey is hit
+    var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    spaceKey.onDown.add(this.shoot, this);
+  },
+
+
+  update: function(){
+    game.physics.arcade.collide(cthulus, layer);
+    game.physics.arcade.collide(mummies, layer);
+
+    game.physics.arcade.overlap(player, cthulus, this.collideCthulu, null, this);
+    game.physics.arcade.overlap(player, mummies, this.collideMummy, null, this);
+
+    //player collision w/ platform
+    game.physics.arcade.collide(player, layer);
+    cursors = game.input.keyboard.createCursorKeys();
+
+    //animate player
+    this.playerMovement();
   },
 
   moveItems: function(){
@@ -114,12 +129,12 @@ var playState = {
     }, this)
   },
 
-  collectCthulu: function(player, cthulu){
-    cthulu.kill();
+  collideCthulu: function(player, cthulu){
+    //player.kill();
   },
 
-  collectMummy: function(player, mummy){
-    mummy.kill();
+  collideMummy: function(player, mummy){
+    //player.kill();
   },
 
   //show door when player has key
@@ -161,7 +176,7 @@ var playState = {
 
   playerMovement: function(){
     player.body.velocity.x = 0;
-    if (cursors.left.isDown)
+    if(cursors.left.isDown)
     {
       //  Move to the left
       player.body.velocity.x = -150;
@@ -176,7 +191,7 @@ var playState = {
     {
       //  Stand still
       player.animations.stop();
-      player.frame = 4;
+      player.frame = 8;
     }
     //  Allow the player to jump if they are touching the ground.
     if(cursors.up.isDown && player.body.onFloor())
@@ -187,4 +202,24 @@ var playState = {
       this.jumpSound.play();
     }
   },
+  //player movement variables there is velocity and animation. make a global variable called "lastDirection." If you let go of that key it will still have left in it
+  //It won't change until you hit right. Whatever direction you end in is what direction it will shoot.
+  shoot: function(){
+    if(shotTimer < game.time.now){
+      shotTimer = game.time.now + 275;
+      var bullet = this.bullets.create(player.body.x + player.body.width / 2 + 20, player.body.y + player.body.height / 2 - 4, 'bullet');
+      game.physics.enable(bullet, Phaser.Physics.ARCADE)
+      bullet.outOfBoundsKill = true;
+      bullet.anchor.setTo(0.5, 0.5);
+      if(cursors.left.isDown)
+      {
+        bullet.body.velocity.y = 0;
+        bullet.body.velocity.x = -600;
+      }else
+      {
+        bullet.body.velocity.y = 0;
+        bullet.body.velocity.x = 600;
+      }
+    }
+  }
 };
