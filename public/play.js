@@ -2,29 +2,49 @@ var cursors;
 var cthulu;
 var mummy;
 var platforms;
+var layer;
+var map;
 
 var playState = {
   //no preload needed
   create: function(){
-      game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    //use the tilemap
+    map = game.add.tilemap('lv2');
+    map.addTilesetImage('Cyber', 'level2');
+
+    //draw level 1
+    layer = map.createLayer('Level 2');
+
+    //set collision for blocks
+    map.setCollisionByExclusion([7, 32, 35, 36, 47]);
+    //map.setCollision(7);
+    //map.setCollisionBetween(32, 47);
+
+
+    layer.resizeWorld();
 
     //background image
-    game.add.sprite(0, 0, 'sky');
+    //game.add.sprite(0, 0, 'sky');
 
-    //platforms group
-    platforms = game.add.group();
-    platforms.enableBody = true;
-
-
-    //ground sprite
-    var ground = platforms.create(0, game.world.height - 64, 'ground');
-    ground.scale.setTo(2, 2);
-    ground.body.immovable = true;
 
     //draw player
-    player = game.add.sprite(32, game.world.height - 250, 'jack');
+    player = game.add.sprite(32, 0, 'jack');
+    player.width = 60;
+    player.height = 73;
 
+    //enable physics on player
     game.physics.arcade.enable(player);
+    player.body.width = 60;
+    player.body.height = 73;
+
+    //player.body.tilePadding.set(32, 32);
+    
+
+    //follow the player via camera
+    game.camera.follow(player);
+
 
     //player physics
     player.body.bounce.y = 0.2;
@@ -101,16 +121,20 @@ var playState = {
     mummy.kill();
   },
 
+  render: function(){
+    game.debug.body(player);
+    layer.debug = true;
+  },
+
   update: function(){
-    game.physics.arcade.collide(cthulus, platforms);
-    game.physics.arcade.collide(mummies, platforms);
-    game.physics.arcade.collide(cthulus, mummies);
+    game.physics.arcade.collide(cthulus, layer);
+    game.physics.arcade.collide(mummies, layer);
 
     game.physics.arcade.overlap(player, cthulus, this.collectCthulu, null, this);
     game.physics.arcade.overlap(player, mummies, this.collectMummy, null, this);
 
     //player collision w/ platform
-    game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(player, layer);
     cursors = game.input.keyboard.createCursorKeys();
 
     //animate player
@@ -127,7 +151,6 @@ var playState = {
     }
     else if (cursors.right.isDown)
     {
-      //  Move to the right
       player.body.velocity.x = 150;
       player.animations.play('right');
     }
@@ -138,7 +161,7 @@ var playState = {
       player.frame = 4;
     }
     //  Allow the player to jump if they are touching the ground.
-    if(cursors.up.isDown && player.body.touching.down)
+    if(cursors.up.isDown && player.body.onFloor())
     {
       player.body.velocity.y = -350;
       //Add Game Sound

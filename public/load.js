@@ -16,6 +16,11 @@ var loadState = {
     game.load.audio('star', 'assets/audio/SoundEffects/key.wav');
     //Sound for Diamonds
     game.load.audio('diamond', 'assets/audio/SoundEffects/p-ping.mp3')
+    //Tilemaps
+    game.load.tilemap('lv1', 'assets/tilemaps/level1.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('lv2', 'assets/tilemaps/level2.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('level1', 'assets/tilemaps/cybernoid.png', 16, 16);
+    game.load.image('level2', 'assets/tilemaps/cybernoid.png', 16, 16);
   },
 
   create: function(){
