@@ -8,17 +8,17 @@ var map2;
 var key;
 var door;
 
-var playState = {
+var playState2 = {
   //no preload needed
   create: function(){
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //use the tilemap
-    map = game.add.tilemap('lv1');
-    map.addTilesetImage('Cyber', 'level1');
+    map = game.add.tilemap('lv2');
+    map.addTilesetImage('Cyber', 'level2');
 
     //draw level 1
-    layer = map.createLayer('Level 1');
+    layer = map.createLayer('Level 2');
 
     //set collision for blocks
     map.setCollisionByExclusion([7, 32, 35, 36, 47]);
@@ -51,7 +51,6 @@ var playState = {
 
     //player physics
     player.body.bounce.y = 0.2;
-
     player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
 
@@ -66,14 +65,27 @@ var playState = {
     mummies = game.add.group();
     mummies.enableBody = true;
 
-    map.createFromObjects('Enemies', 106, 'cthulu', 0, true, false, cthulus);
-    map.createFromObjects('Enemies', 107, 'mummy', 0, true, false, mummies);
-
-    key = game.add.sprite(150, 500, 'key');
+    key = game.add.sprite(1450, 300, 'key');
     game.physics.arcade.enable(key);
     key.enableBody = true;
 
-   // map.createFromObjects('keys', 34, 'key', 0, true, false);
+
+
+    for(var i = 0; i < 10; i++){
+      //cthulu drawing
+      cthulu = cthulus.create(i * 70, 0, 'cthulu');
+      cthulu.animations.add('left', [4, 5, 6, 7], 10, true);
+      cthulu.animations.add('right', [8, 9, 10, 11], 10, true);
+      cthulu.body.gravity.y = 60;
+      cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
+      cthulu.body.collideWorldBounds = true;
+
+      //mummy drawing
+      mummy = mummies.create(game.world.randomX, 0, 'mummy');
+      mummy.body.gravity.y = 60;
+      mummy.body.bounce.y = 0.7 + Math.random() * 0.2;
+      mummy.body.collideWorldBounds = true;
+    };
 
     //monster movement time
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
@@ -87,10 +99,7 @@ var playState = {
   moveItems: function(){
     cthulus.forEach(function(cthulu){
       var direction = Math.floor(Math.random() + .5);
-      cthulu.animations.add('left', [4, 5, 6, 7], 10, true);
-      cthulu.animations.add('right', [8, 9, 10, 11], 10, true);
-      cthulu.body.gravity.y = 60;
-      cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
+
       if(direction === 1){
         cthulu.body.velocity.x += 100;
         cthulu.animations.play('right');
@@ -103,13 +112,12 @@ var playState = {
     mummies.forEach(function(mummy){
       var direction = Math.floor(Math.random() + .5);
 
-      mummy.body.bounce.y = 0.7 + Math.random() * 0.2;
       if(direction === 1){
         mummy.body.velocity.x += 100;
-        mummy.body.velocity.y += 20;
+        mummy.body.velocity.y += 100;
       }else if(direction === 0){
         mummy.body.velocity.x -= 100;
-        mummy.body.velocity.y -= 20;
+        mummy.body.velocity.y -= 100;
       };
     }, this)
   },
@@ -125,14 +133,14 @@ var playState = {
   //show door when player has key
   openDoor: function(player, key){
     key.destroy();
-    door = game.add.sprite(200, 500, 'door');
+    door = game.add.sprite(1200, 300, 'door');
     game.physics.arcade.enable(door);
     door.enableBody = true;
   },
 
   //go to next level when player goes through door
   nextLevel: function(player, door){
-    this.game.state.start('level2');
+    game.state.start('play');
 
   },
 
