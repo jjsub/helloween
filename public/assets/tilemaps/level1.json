@@ -18,8 +18,23 @@
         {
          "draworder":"topdown",
          "height":44,
-         "name":"Object Layer 1",
-         "objects":[],
+         "name":"Enemies",
+         "objects":[
+                {
+                 "gid":67,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":759,
+                 "y":150
+                }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,

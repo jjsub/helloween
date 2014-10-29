@@ -65,7 +65,7 @@ var playState2 = {
     mummies = game.add.group();
     mummies.enableBody = true;
 
-    key = game.add.sprite(150, 500, 'key');
+    key = game.add.sprite(1450, 300, 'key');
     game.physics.arcade.enable(key);
     key.enableBody = true;
 
@@ -133,14 +133,14 @@ var playState2 = {
   //show door when player has key
   openDoor: function(player, key){
     key.destroy();
-    door = game.add.sprite(200, 500, 'door');
+    door = game.add.sprite(1200, 300, 'door');
     game.physics.arcade.enable(door);
     door.enableBody = true;
   },
 
   //go to next level when player goes through door
   nextLevel: function(player, door){
-    //game.state.start('playState2');
+    game.state.start('play');
 
   },
 

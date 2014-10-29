@@ -69,6 +69,7 @@ var playState = {
     game.physics.arcade.enable(key);
     key.enableBody = true;
 
+    map.createFromObjects('keys', 34, 'key', 0, true, false);
 
 
     for(var i = 0; i < 10; i++){
