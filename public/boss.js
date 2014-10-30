@@ -27,7 +27,7 @@ var finalBoss = {
     player = game.add.sprite(793, 350, 'jack');
     player.width = 40;
     player.height = 53;
-    player.health = 100;
+    player.health = 50;
 
     //enable physics on player
     game.physics.arcade.enable(player);
