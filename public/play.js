@@ -118,8 +118,8 @@ var playState = {
     game.physics.arcade.collide(cthulus, layer);
     game.physics.arcade.collide(mummies, layer);
 
-    game.physics.arcade.overlap(player, cthulus, this.collideCthulu, null, this);
-    game.physics.arcade.overlap(player, mummies, this.collideMummy, null, this);
+    game.physics.arcade.overlap(player, cthulus, this.killPlayer, null, this);
+    game.physics.arcade.overlap(player, mummies, this.killPlayer, null, this);
     
     game.physics.arcade.overlap(player, keys, this.openDoor, null, this);
     game.physics.arcade.overlap(player, doors, this.nextLevel, null, this);
@@ -189,7 +189,9 @@ var playState = {
   killPlayer: function(death, player){
     this.deathSound = game.add.audio('death');
     this.deathSound.play();
-    game.state.start('play');
+    game.camera.reset();
+    game.state.restart();
+    //game.state.start('play');
   },
 
   killCthulu: function(bullet, cthulu){
