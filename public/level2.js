@@ -39,6 +39,8 @@ var playState2 = {
     map.setCollision(47);
     map.setCollisionBetween(74, 76);
     map.setCollision(33);
+    map.setCollision(32);
+    map.setCollision(64);
     //map.setCollisionB, 8etween(32, 47);
 
 
@@ -78,8 +80,8 @@ var playState2 = {
     mummies = game.add.group();
     mummies.enableBody = true;
 
-    map.createFromObjects('Enemies', 106, 'cthulu', 0, true, false, cthulus);
-    map.createFromObjects('Enemies', 107, 'mummy', 0, true, false, mummies);
+    map.createFromObjects('Enemies', 67, 'cthulu', 0, true, false, cthulus);
+    map.createFromObjects('Enemies', 78, 'mummy', 0, true, false, mummies);
 
     keys = game.add.group();
     keys.enableBody = true;
@@ -87,7 +89,7 @@ var playState2 = {
     doors = game.add.group();
     doors.enableBody = true;
 
-    map.createFromObjects('Key', 67, 'key', 0, true, false, keys);
+    map.createFromObjects('Key', 77, 'key', 0, true, false, keys);
 
     //monster movement time
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
@@ -129,7 +131,7 @@ var playState2 = {
 
     //animate player
     this.playerMovement();
-    layer.debug = true;
+    //layer.debug = true;
   },
 
   moveItems: function(){
@@ -227,18 +229,18 @@ var playState2 = {
 
   //go to next level when player goes through door
   nextLevel: function(player, door){
-    this.game.state.start('level2');
+    this.game.state.start('boss');
     this.gameSound.stop();
   },
 
-  restartGame: function(){
+  restartLevel2: function(){
     this.gameSound.stop();
-    game.state.start('menu');
+    game.state.start('level2')
   },
 
   collideCthulu: function(player, cthulu){
     player.kill();
-    this.restartGame();
+    this.restartLevel2();
     //Add Death Sound
     this.deathSound = game.add.audio('death');
     this.deathSound.play();
@@ -246,14 +248,14 @@ var playState2 = {
 
   collideMummy: function(player, mummy){
     player.kill();
-    this.restartGame();
+    this.restartLevel2();
     //Add Death Sound
     this.deathSound = game.add.audio('death');
     this.deathSound.play();
   },
 
   render: function(){
-    game.debug.body(player);
+    //game.debug.body(player);
   },
 
   playerMovement: function(){
