@@ -1,5 +1,7 @@
 var cursors;
 var cthulu;
+var cursors;
+var cthulu;
 var mummy;
 var platforms;
 var layer;
@@ -8,17 +10,17 @@ var map2;
 var key;
 var door;
 var shotTimer = 0;
-var playState = {
+var playState2 = {
   //no preload needed
   create: function(){
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //use the tilemap
-    map = game.add.tilemap('lv1');
-    map.addTilesetImage('Cyber', 'level1');
+    map = game.add.tilemap('lv2');
+    map.addTilesetImage('Cyber', 'level2');
 
     //draw level 1
-    layer = map.createLayer('Level 1');
+    layer = map.createLayer('Level 2');
 
     //set collision for blocks
     map.setCollisionByExclusion([7, 32, 35, 36, 47]);
@@ -62,17 +64,11 @@ var playState = {
     map.createFromObjects('Enemies', 106, 'cthulu', 0, true, false, cthulus);
     map.createFromObjects('Enemies', 107, 'mummy', 0, true, false, mummies);
 
-    key = game.add.sprite(150, 500, 'key');
-    game.physics.arcade.enable(key);
-    key.enableBody = true;
-
-   // map.createFromObjects('keys', 34, 'key', 0, true, false);
-
     //monster movement time
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
 
     //game music
-    this.gameSound = game.add.audio('ls1');
+    this.gameSound = game.add.audio('ls2');
     this.gameSound.play();
 
     this.bullets = game.add.group();
@@ -90,9 +86,6 @@ var playState = {
 
     game.physics.arcade.overlap(player, cthulus, this.collideCthulu, null, this);
     game.physics.arcade.overlap(player, mummies, this.collideMummy, null, this);
-
-    game.physics.arcade.overlap(player, key, this.openDoor, null, this);
-    game.physics.arcade.overlap(player, door, this.nextLevel, null, this);
 
     game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
     game.physics.arcade.overlap(this.bullets, mummies, this.killMummy, null, this);
@@ -155,23 +148,6 @@ var playState = {
     bullet.kill();
   },
 
-  //show door when player has key
-  openDoor: function(player, key){
-    key.destroy();
-    door = game.add.sprite(200, 500, 'door');
-    game.physics.arcade.enable(door);
-    door.enableBody = true;
-    //Add Key Sound
-    this.keySound = game.add.audio('key');
-    this.keySound.play();
-  },
-
-  //go to next level when player goes through door
-  nextLevel: function(player, door){
-    this.game.state.start('level2');
-    this.gameSound.stop();
-  },
-
   restartGame: function(){
     this.gameSound.stop();
     game.state.start('menu');
@@ -226,8 +202,7 @@ var playState = {
       this.jumpSound.play();
     }
   },
-  //player movement variables there is velocity and animation. make a global variable called "lastDirection." If you let go of that key it will still have left in it
-  //It won't change until you hit right. Whatever direction you end in is what direction it will shoot.
+
   shoot: function(){
     if(shotTimer < game.time.now){
       shotTimer = game.time.now + 275;
