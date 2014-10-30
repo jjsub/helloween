@@ -175,12 +175,12 @@ var playState = {
       //enemy behavior
       cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
       if(direction === 1){
-        cthulu.body.velocity.x += 100;
-        cthulu.body.velocity.y += 20;
+        cthulu.body.velocity.x += 50;
+        cthulu.body.velocity.y += 10;
         cthulu.animations.play('right');
       }else if(direction === 0){
-        cthulu.body.velocity.x -= 100;
-        cthulu.body.velocity.y -= 20;
+        cthulu.body.velocity.x -= 50;
+        cthulu.body.velocity.y -= 10;
         cthulu.animations.play('left');
       };
     }, this)
@@ -200,8 +200,8 @@ var playState = {
     this.killSound.play();
     score += 40;
     scoreText.setText('Score: ' + score);
-    var x = Math.floor(Math.random() * 600 - 32),
-        y = Math.floor(Math.random() * 600 - 90);
+    var x = cthulu.x,
+        y = cthulu.y;
     this.emitter.x = x;
     this.emitter.y = y;
     this.emitter.start(true, 2000, null, 10);
@@ -215,8 +215,8 @@ var playState = {
     this.killSound.play();
     score += 20;
     scoreText.text = 'Score: ' + score;
-    var x = Math.floor(Math.random() * 600 - 32),
-        y = Math.floor(Math.random() * 600 - 90);
+    var x = mummy.x,
+        y = mummy.y;
     this.emitter.x = x;
     this.emitter.y = y;
     this.emitter.start(true, 2000, null, 10);
