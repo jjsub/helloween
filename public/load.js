@@ -33,7 +33,7 @@ var loadState = {
     game.load.image('level2', 'assets/tilemaps/cybernoid.png', 16, 16);
     game.load.image('key', '/img/key-clipart-key.png');
     game.load.image('door', '/img/Door.png');
-    game.load.image('death', '/img/Solid_Black.png');
+    game.load.image('death', '/img/Solid_black.png');
   },
 
   create: function(){
