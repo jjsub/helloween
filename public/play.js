@@ -83,7 +83,7 @@ var playState = {
 
     map.createFromObjects('Enemies', 106, 'cthulu', 0, true, false, cthulus);
     map.createFromObjects('Enemies', 107, 'mummy', 0, true, false, mummies);
-    map.createFromObjects('Death', 44, 'death', 0, true, false, death);
+    map.createFromObjects('Death', 44, 'death',   0, true, false, death);
 
     keys = game.add.group();
     keys.enableBody = true;
