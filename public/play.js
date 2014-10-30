@@ -32,13 +32,13 @@ var playState = {
     map.setCollision(5);
     map.setCollision(46);
     map.setCollisionBetween(60, 62);
-    map.setCollision(54);
     map.setCollision(49);
     map.setCollision(54);
     map.setCollision(60);
     map.setCollision(52);
     map.setCollision(47);
     map.setCollisionBetween(74, 76);
+    map.setCollision(32);
     //map.setCollisionB, 8etween(32, 47);
 
 
@@ -118,8 +118,8 @@ var playState = {
     game.physics.arcade.collide(cthulus, layer);
     game.physics.arcade.collide(mummies, layer);
 
-    game.physics.arcade.overlap(player, cthulus, this.collideCthulu, null, this);
-    game.physics.arcade.overlap(player, mummies, this.collideMummy, null, this);
+    game.physics.arcade.overlap(player, cthulus, this.killPlayer, null, this);
+    game.physics.arcade.overlap(player, mummies, this.killPlayer, null, this);
     
     game.physics.arcade.overlap(player, keys, this.openDoor, null, this);
     game.physics.arcade.overlap(player, doors, this.nextLevel, null, this);
@@ -175,19 +175,24 @@ var playState = {
       //enemy behavior
       cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
       if(direction === 1){
-        cthulu.body.velocity.x += 100;
-        cthulu.body.velocity.y += 20;
+        cthulu.body.velocity.x += 50;
+        cthulu.body.velocity.y += 10;
         cthulu.animations.play('right');
       }else if(direction === 0){
-        cthulu.body.velocity.x -= 100;
-        cthulu.body.velocity.y -= 20;
+        cthulu.body.velocity.x -= 50;
+        cthulu.body.velocity.y -= 10;
         cthulu.animations.play('left');
       };
     }, this)
   },
 
   killPlayer: function(death, player){
-    this.restartGame();
+    this.deathSound = game.add.audio('death');
+    this.deathSound.play();
+    game.camera.reset();
+    game.state.restart();
+    this.gameSound.stop();
+    //game.state.start('play');
   },
 
   killCthulu: function(bullet, cthulu){
@@ -198,8 +203,8 @@ var playState = {
     this.killSound.play();
     score += 40;
     scoreText.setText('Score: ' + score);
-    var x = Math.floor(Math.random() * 600 - 32),
-        y = Math.floor(Math.random() * 600 - 90);
+    var x = cthulu.x,
+        y = cthulu.y;
     this.emitter.x = x;
     this.emitter.y = y;
     this.emitter.start(true, 2000, null, 10);
@@ -213,8 +218,8 @@ var playState = {
     this.killSound.play();
     score += 20;
     scoreText.text = 'Score: ' + score;
-    var x = Math.floor(Math.random() * 600 - 32),
-        y = Math.floor(Math.random() * 600 - 90);
+    var x = mummy.x,
+        y = mummy.y;
     this.emitter.x = x;
     this.emitter.y = y;
     this.emitter.start(true, 2000, null, 10);
@@ -236,6 +241,7 @@ var playState = {
   //go to next level when player goes through door
   nextLevel: function(player, door){
     this.game.state.start('level2');
+    game.camera.reset();
     this.gameSound.stop();
   },
 
