@@ -3,30 +3,27 @@ var platforms;
 var layer;
 var shotTimer = 0;
 var style = {fontSize: '32px', fill: '#fff'};
-var playState = {
+var boss;
+var finalBoss = {
   //no preload needed
   create: function(){
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //use the tilemap
-    map = game.add.tilemap('lv1');
+    map = game.add.tilemap('boss');
     map.addTilesetImage('Cyber', 'level1');
 
     //draw level 1
-    layer = map.createLayer('Level 1');
+    layer = map.createLayer('Boss Layer');
 
     //set collision for blocks
-    map.setCollisionByExclusion([7, 32, 35, 36, 47]);
-    //map.setCollision(7);
-    //map.setCollisionBetween(32, 47);
-
-
-    score = 0;
+    map.setCollisionByExclusion([7, 8, 32, 35, 36, 47]);
 
     layer.resizeWorld();
 
+
     //draw player
-    player = game.add.sprite(32, 600, 'jack');
+    player = game.add.sprite(793, 350, 'jack');
     player.width = 40;
     player.height = 53;
 
@@ -34,21 +31,30 @@ var playState = {
     game.physics.arcade.enable(player);
     player.body.width = 30;
     player.body.height = 53;
-
-    //player.body.tilePadding.set(32, 32);
-    
-    //follow the player via camera
-    game.camera.follow(player);
-
-    //player physics
-    //player.body.bounce.y = 0.2;
-
     player.body.gravity.y = 1000;
     player.body.collideWorldBounds = true;
 
     //player walking left and right animations
-    player.animations.add('left', [5, 6, 7], 10, true);
-    player.animations.add('right', [9, 10, 11], 10, true);
+    player.animations.add('left', [5, 6, 7], 16, true);
+    player.animations.add('right', [9, 10, 11], 16, true);
+
+
+    //follow the player via camera
+    game.camera.follow(player);
+
+    //oogie the boss
+    boss = game.add.sprite(1200, 300, 'oogie');
+    game.physics.arcade.enable(boss);
+    boss.body.gravity = 500;
+    boss.body.collideWorldBounds = true;
+    boss.body.velocity.x = -200;
+    console.log(boss.body.velocity);
+
+    boss.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7], 12, true);
+    boss.animations.add('right', [8, 9, 10, 11, 12, 13, 14], 12, true);
+  
+    //boss timer
+    this.moveTimer = game.time.events.loop(1000, this.bossActions, this);
 
     //game music
     this.gameSound = game.add.audio('ls1');
@@ -65,12 +71,24 @@ var playState = {
 
 
   update: function(){
-    game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
+    //game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
     game.physics.arcade.collide(player, layer);
+    //game.physics.arcade.collide(boss, layer);
     cursors = game.input.keyboard.createCursorKeys();
 
     //animate player
     this.playerMovement();
+  },
+
+  bossActions: function(){
+    var direction = Math.floor(Math.random() + .5);
+    if(direction === 1){
+      boss.body.velocity.x += 200;
+      boss.animations.play('right');
+    }else if(direction === 0){
+      boss.body.velocity.x -= 200;
+      boss.animations.play('left');
+    }
   },
 
   killBullet: function(bullet){
@@ -83,6 +101,8 @@ var playState = {
   },
 
   render: function(){
+    //game.debug.body(boss);
+    //game.debug.body(layer);
   },
 
   playerMovement: function(){

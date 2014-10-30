@@ -6,7 +6,7 @@ var score = 0;
 game.state.add('load', loadState);
 game.state.add('menu', menuState);
 game.state.add('play', playState);
-//game.state.add('boss', finalBoss);
+game.state.add('boss', finalBoss);
 game.state.add('level2', playState2);
 
 //start with the load state
