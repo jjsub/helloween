@@ -267,8 +267,8 @@ var playState = {
   },
 
   render: function(){
-    game.debug.body(player);
-    layer.debug = true;
+    //game.debug.body(player);
+    //layer.debug = true;
   },
 
   playerMovement: function(){
