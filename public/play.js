@@ -21,9 +21,22 @@ var playState = {
     layer = map.createLayer('Level 1');
 
     //set collision for blocks
-    map.setCollisionByExclusion([7, 32, 35, 36, 47]);
-    //map.setCollision(7);
-    //map.setCollisionBetween(32, 47);
+    //map.setCollisionByExclusion([7, 32, 35, 36, 47]);, 
+    map.setCollisionBetween(8, 10);
+    map.setCollisionBetween(10, 13);
+    map.setCollisionBetween(16, 31);
+    map.setCollisionBetween(36, 43);
+    map.setCollision(5);
+    map.setCollision(46);
+    map.setCollisionBetween(60, 62);
+    map.setCollision(54);
+    map.setCollision(49);
+    map.setCollision(54);
+    map.setCollision(60);
+    map.setCollision(52);
+    map.setCollision(47);
+    map.setCollisionBetween(74, 76);
+    //map.setCollisionB, 8etween(32, 47);
 
 
     layer.resizeWorld();
@@ -72,6 +85,9 @@ var playState = {
 
     keys = game.add.group();
     keys.enableBody = true;
+
+    doors = game.add.group();
+    doors.enableBody = true;
 
     map.createFromObjects('Key', 67, 'key', 0, true, false, keys);
 
@@ -125,9 +141,8 @@ var playState = {
   //show door when player has key
   openDoor: function(player, key){
     key.destroy();
-    door = game.add.sprite(200, 500, 'door');
-    game.physics.arcade.enable(door);
-    door.enableBody = true;
+    map.createFromObjects('Door', 36, 'door', 0, true, false, doors);
+
   },
 
   //go to next level when player goes through door
@@ -138,8 +153,8 @@ var playState = {
 
 
   render: function(){
-    game.debug.body(player);
-    layer.debug = true;
+    //game.debug.body(player);
+    //layer.debug = true;
   },
 
   update: function(){
@@ -149,7 +164,7 @@ var playState = {
     game.physics.arcade.overlap(player, cthulus, this.collectCthulu, null, this);
     game.physics.arcade.overlap(player, mummies, this.collectMummy, null, this);
     game.physics.arcade.overlap(player, keys, this.openDoor, null, this);
-    game.physics.arcade.overlap(player, door, this.nextLevel, null, this);
+    game.physics.arcade.overlap(player, doors, this.nextLevel, null, this);
 
     //player collision w/ platform
     game.physics.arcade.collide(player, layer);
