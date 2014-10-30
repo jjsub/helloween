@@ -102,7 +102,7 @@ var finalBoss = {
     if(bossHealth <= 0){
       boss.kill();
       this.gameSound.stop();
-      game.state.start('win');
+      game.state.start('menu');
     }
   },
 
