@@ -38,6 +38,6 @@ var loadState = {
 
   create: function(){
     //when all assets are loaded, go to the menu state
-    this.game.state.start('play');
+    this.game.state.start('menu');
   }
 };
