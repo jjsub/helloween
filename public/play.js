@@ -67,7 +67,7 @@ var playState = {
     player.body.bounce.y = 0.1;
 
     player.body.gravity.y = 300;
-    player.body.collideWorldBounds = true;
+    //player.body.collideWorldBounds = true;
 
     //player walking left and right animations
     player.animations.add('left', [5, 6, 7], 10, true);
@@ -172,7 +172,13 @@ var playState = {
 
     //animate player
     this.playerMovement();
+    //this.restartLevel();
   },
+
+  /*restartLevel: function(){
+    if(player.body.y < game.world.height);
+      this.game.state.start('play');
+  },*/
 
   playerMovement: function(){
     player.body.velocity.x = 0;
