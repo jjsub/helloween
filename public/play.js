@@ -191,6 +191,7 @@ var playState = {
     this.deathSound.play();
     game.camera.reset();
     game.state.restart();
+    this.gameSound.stop();
     //game.state.start('play');
   },
 
@@ -240,6 +241,7 @@ var playState = {
   //go to next level when player goes through door
   nextLevel: function(player, door){
     this.game.state.start('level2');
+    game.camera.reset();
     this.gameSound.stop();
   },
 

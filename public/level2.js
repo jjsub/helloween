@@ -229,7 +229,7 @@ var playState2 = {
 
   //go to next level when player goes through door
   nextLevel: function(player, door){
-    this.game.state.start('level2');
+    this.game.state.start('boss');
     this.gameSound.stop();
   },
 
