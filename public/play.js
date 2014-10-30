@@ -48,9 +48,9 @@ var playState = {
     game.camera.follow(player);
 
     //player physics
-    player.body.bounce.y = 0.2;
+    //player.body.bounce.y = 0.2;
 
-    player.body.gravity.y = 300;
+    player.body.gravity.y = 1000;
     player.body.collideWorldBounds = true;
 
     //player walking left and right animations
@@ -116,31 +116,51 @@ var playState = {
   },
 
   moveItems: function(){
-    cthulus.forEach(function(cthulu){
+    mummies.forEach(function(mummy){
+      //random direction
       var direction = Math.floor(Math.random() + .5);
-      cthulu.animations.add('left', [4, 5, 6, 7], 10, true);
-      cthulu.animations.add('right', [8, 9, 10, 11], 10, true);
-      cthulu.body.gravity.y = 60;
-      cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
+
+      //sprite dimensions
+      mummy.width = 44;
+      mummy.height = 44;
+
+      //animations
+      mummy.animations.add('left', [4, 5, 6, 7], 10, true);
+      mummy.animations.add('right', [8, 9, 10, 11], 10, true);
+
+      //enemy behavior
+      mummy.body.gravity.y = 600;
+      //mummy.body.bounce.y = 0.7 + Math.random() * 0.2;
       if(direction === 1){
-        cthulu.body.velocity.x += 100;
-        cthulu.animations.play('right');
+        mummy.body.velocity.x += 100;
+        mummy.animations.play('right');
       }else if(direction === 0){
-        cthulu.body.velocity.x -= 100;
-        cthulu.animations.play('left');
+        mummy.body.velocity.x -= 100;
+        mummy.animations.play('left');
       };
     }, this)
 
-    mummies.forEach(function(mummy){
+    cthulus.forEach(function(cthulu){
+      //random direction
       var direction = Math.floor(Math.random() + .5);
+      //sprite dimensions
 
-      mummy.body.bounce.y = 0.7 + Math.random() * 0.2;
+      cthulu.width = 30;
+      cthulu.height = 30;
+      //animations
+      cthulu.animations.add('left', [4, 5, 6, 7], 10, true);
+      cthulu.animations.add('right', [8, 9, 10, 11], 10, true);
+
+      //enemy behavior
+      cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
       if(direction === 1){
-        mummy.body.velocity.x += 100;
-        mummy.body.velocity.y += 20;
+        cthulu.body.velocity.x += 100;
+        cthulu.body.velocity.y += 20;
+        cthulu.animations.play('right');
       }else if(direction === 0){
-        mummy.body.velocity.x -= 100;
-        mummy.body.velocity.y -= 20;
+        cthulu.body.velocity.x -= 100;
+        cthulu.body.velocity.y -= 20;
+        cthulu.animations.play('left');
       };
     }, this)
   },
@@ -218,8 +238,17 @@ var playState = {
   },
 
   render: function(){
-    //game.debug.body(player);
-    //layer.debug = true;
+    
+    game.debug.body(player);
+    layer.debug = true;
+    mummies.forEach(function(m){
+      game.debug.body(m);
+    });
+
+    cthulus.forEach(function(c){
+      game.debug.body(c);
+    });
+
   },
 
   playerMovement: function(){
@@ -244,7 +273,7 @@ var playState = {
     //  Allow the player to jump if they are touching the ground.
     if(cursors.up.isDown && player.body.onFloor())
     {
-      player.body.velocity.y = -350;
+      player.body.velocity.y = -650;
       //Add Jump Sound
       this.jumpSound = game.add.audio('jump');
       this.jumpSound.play();
