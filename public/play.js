@@ -253,6 +253,7 @@ var playState = {
   collideCthulu: function(player, cthulu){
     player.kill();
     this.restartGame();
+    game.camera.reset();
     //Add Death Sound
     this.deathSound = game.add.audio('death');
     this.deathSound.play();
@@ -261,6 +262,7 @@ var playState = {
   collideMummy: function(player, mummy){
     player.kill();
     this.restartGame();
+    game.camera.reset();
     //Add Death Sound
     this.deathSound = game.add.audio('death');
     this.deathSound.play();
