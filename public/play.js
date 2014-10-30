@@ -28,12 +28,13 @@ var playState = {
     //map.setCollision(7);
     //map.setCollisionBetween(32, 47);
 
+
     score = 0;
 
     layer.resizeWorld();
 
     //draw player
-    player = game.add.sprite(32, 0, 'jack');
+    player = game.add.sprite(32, 600, 'jack');
     player.width = 40;
     player.height = 53;
 
@@ -238,7 +239,7 @@ var playState = {
   },
 
   render: function(){
-    
+   /* 
     game.debug.body(player);
     layer.debug = true;
     mummies.forEach(function(m){
@@ -248,6 +249,7 @@ var playState = {
     cthulus.forEach(function(c){
       game.debug.body(c);
     });
+   */
 
   },
 

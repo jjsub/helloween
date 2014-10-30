@@ -7,7 +7,7 @@ var loadState = {
     game.load.image('bullet', '/img/pumpkinbomb.png');
     game.load.spritesheet('cthulu', '/img/cthulu.png', 64, 64);
     game.load.spritesheet('mummy', '/img/mummy.png', 80, 80);
-    game.load.spritesheet('jack', '/img/jack.png', 80, 93);
+    game.load.spritesheet('jack', '/img/jack2.png', 80, 93);
     //Game Sound
     game.load.audio('ls1', 'assets/audio/03 This Is Halloween - Danny Elfman.mp3', 'assets/audio/03_This_Is_Halloween_-_Danny_Elfman.ogg');
     //Game Sound lvl 2
