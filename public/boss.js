@@ -73,7 +73,7 @@ var finalBoss = {
   update: function(){
     //game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
     game.physics.arcade.collide(player, layer);
-    //game.physics.arcade.collide(boss, layer);
+    game.physics.arcade.collide(boss, layer);
     cursors = game.input.keyboard.createCursorKeys();
 
     //animate player
@@ -101,7 +101,7 @@ var finalBoss = {
   },
 
   render: function(){
-    //game.debug.body(boss);
+    game.debug.body(boss);
     //game.debug.body(layer);
   },
 
