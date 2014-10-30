@@ -89,7 +89,11 @@ var playState2 = {
     doors = game.add.group();
     doors.enableBody = true;
 
+    death = game.add.group();
+    death.enableBody = true;
+
     map.createFromObjects('Key', 77, 'key', 0, true, false, keys);
+    map.createFromObjects('Death', 70, 'death', 0, true, false, death);
 
     //monster movement time
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
@@ -121,6 +125,7 @@ var playState2 = {
     
     game.physics.arcade.overlap(player, keys, this.openDoor, null, this);
     game.physics.arcade.overlap(player, doors, this.nextLevel, null, this);
+    game.physics.arcade.overlap(player, death, this.killPlayer, null, this);
 
     game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
     game.physics.arcade.overlap(this.bullets, mummies, this.killMummy, null, this);
@@ -182,6 +187,16 @@ var playState2 = {
         cthulu.animations.play('left');
       };
     }, this)
+  },
+
+
+  killPlayer: function(death, player){
+    this.deathSound = game.add.audio('death');
+    this.deathSound.play();
+    game.camera.reset();
+    game.state.restart();
+    this.gameSound.stop();
+    //game.state.start('play');
   },
 
   killCthulu: function(bullet, cthulu){
