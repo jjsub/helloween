@@ -24,23 +24,38 @@ var playState2 = {
     layer = map.createLayer('Level 2');
 
     //set collision for blocks
-    map.setCollisionByExclusion([7, 32, 35, 36, 47]);
-    //map.setCollision(7);
-    //map.setCollisionBetween(32, 47);
+    //map.setCollisionByExclusion([7, 32, 35, 36, 47]);, 
+    map.setCollisionBetween(8, 10);
+    map.setCollisionBetween(10, 13);
+    map.setCollisionBetween(16, 31);
+    map.setCollisionBetween(36, 43);
+    map.setCollision(5);
+    map.setCollision(46);
+    map.setCollisionBetween(60, 62);
+    map.setCollision(49);
+    map.setCollision(54);
+    map.setCollision(60);
+    map.setCollision(52);
+    map.setCollision(47);
+    map.setCollisionBetween(74, 76);
+    map.setCollision(33);
+    //map.setCollisionB, 8etween(32, 47);
+
 
     score = 0;
 
     layer.resizeWorld();
 
     //draw player
-    player = game.add.sprite(32, 0, 'jack');
+    player = game.add.sprite(32, -200, 'jack');
     player.width = 40;
     player.height = 53;
 
     //enable physics on player
     game.physics.arcade.enable(player);
-    player.body.width = 30;
-    player.body.height = 53;
+    player.anchor.setTo(0.5, 1.1);
+    player.body.width = 25;
+    player.body.height = 45;
 
     //player.body.tilePadding.set(32, 32);
     
@@ -48,10 +63,9 @@ var playState2 = {
     game.camera.follow(player);
 
     //player physics
-    player.body.bounce.y = 0.2;
-
-    player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
+    player.body.bounce.y = 0.1;
+    player.body.gravity.y = 300;
 
     //player walking left and right animations
     player.animations.add('left', [5, 6, 7], 10, true);
@@ -67,6 +81,14 @@ var playState2 = {
     map.createFromObjects('Enemies', 106, 'cthulu', 0, true, false, cthulus);
     map.createFromObjects('Enemies', 107, 'mummy', 0, true, false, mummies);
 
+    keys = game.add.group();
+    keys.enableBody = true;
+
+    doors = game.add.group();
+    doors.enableBody = true;
+
+    map.createFromObjects('Key', 67, 'key', 0, true, false, keys);
+
     //monster movement time
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
 
@@ -81,7 +103,7 @@ var playState2 = {
     var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     spaceKey.onDown.add(this.shoot, this);
 
-    scoreText = game.add.text(16, 16, 'score: 0', style);
+    scoreText = game.add.text(16, 40, 'score: 0', style);
 
     this.emitter = game.add.emitter(0, 0, 100);
     this.emitter.makeParticles('bullet');
@@ -94,6 +116,9 @@ var playState2 = {
 
     game.physics.arcade.overlap(player, cthulus, this.collideCthulu, null, this);
     game.physics.arcade.overlap(player, mummies, this.collideMummy, null, this);
+    
+    game.physics.arcade.overlap(player, keys, this.openDoor, null, this);
+    game.physics.arcade.overlap(player, doors, this.nextLevel, null, this);
 
     game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
     game.physics.arcade.overlap(this.bullets, mummies, this.killMummy, null, this);
@@ -104,34 +129,55 @@ var playState2 = {
 
     //animate player
     this.playerMovement();
+    layer.debug = true;
   },
 
   moveItems: function(){
-    cthulus.forEach(function(cthulu){
+    mummies.forEach(function(mummy){
+      //random direction
       var direction = Math.floor(Math.random() + .5);
-      cthulu.animations.add('left', [4, 5, 6, 7], 10, true);
-      cthulu.animations.add('right', [8, 9, 10, 11], 10, true);
-      cthulu.body.gravity.y = 60;
-      cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
+
+      //sprite dimensions
+      mummy.width = 44;
+      mummy.height = 44;
+
+      //animations
+      mummy.animations.add('left', [4, 5, 6, 7], 10, true);
+      mummy.animations.add('right', [8, 9, 10, 11], 10, true);
+
+      //enemy behavior
+      mummy.body.gravity.y = 600;
+      //mummy.body.bounce.y = 0.7 + Math.random() * 0.2;
       if(direction === 1){
-        cthulu.body.velocity.x += 100;
-        cthulu.animations.play('right');
+        mummy.body.velocity.x += 100;
+        mummy.animations.play('right');
       }else if(direction === 0){
-        cthulu.body.velocity.x -= 100;
-        cthulu.animations.play('left');
+        mummy.body.velocity.x -= 100;
+        mummy.animations.play('left');
       };
     }, this)
 
-    mummies.forEach(function(mummy){
+    cthulus.forEach(function(cthulu){
+      //random direction
       var direction = Math.floor(Math.random() + .5);
+      //sprite dimensions
 
-      mummy.body.bounce.y = 0.7 + Math.random() * 0.2;
+      cthulu.width = 30;
+      cthulu.height = 30;
+      //animations
+      cthulu.animations.add('left', [4, 5, 6, 7], 10, true);
+      cthulu.animations.add('right', [8, 9, 10, 11], 10, true);
+
+      //enemy behavior
+      cthulu.body.bounce.y = 0.7 + Math.random() * 0.2;
       if(direction === 1){
-        mummy.body.velocity.x += 100;
-        mummy.body.velocity.y += 20;
+        cthulu.body.velocity.x += 100;
+        cthulu.body.velocity.y += 20;
+        cthulu.animations.play('right');
       }else if(direction === 0){
-        mummy.body.velocity.x -= 100;
-        mummy.body.velocity.y -= 20;
+        cthulu.body.velocity.x -= 100;
+        cthulu.body.velocity.y -= 20;
+        cthulu.animations.play('left');
       };
     }, this)
   },
@@ -144,7 +190,6 @@ var playState2 = {
     this.killSound.play();
     score += 40;
     scoreText.setText('Score: ' + score);
-
     var x = Math.floor(Math.random() * 600 - 32),
         y = Math.floor(Math.random() * 600 - 90);
     this.emitter.x = x;
@@ -160,7 +205,6 @@ var playState2 = {
     this.killSound.play();
     score += 20;
     scoreText.text = 'Score: ' + score;
-
     var x = Math.floor(Math.random() * 600 - 32),
         y = Math.floor(Math.random() * 600 - 90);
     this.emitter.x = x;
@@ -170,6 +214,21 @@ var playState2 = {
 
   killBullet: function(bullet){
     bullet.kill();
+  },
+
+  //show door when player has key
+  openDoor: function(player, key){
+    key.destroy();
+    //Add Key Sound
+    this.keySound = game.add.audio('key');
+    this.keySound.play();
+    map.createFromObjects('Door', 36, 'door', 0, true, false, doors);
+  },
+
+  //go to next level when player goes through door
+  nextLevel: function(player, door){
+    this.game.state.start('level2');
+    this.gameSound.stop();
   },
 
   restartGame: function(){
@@ -194,8 +253,7 @@ var playState2 = {
   },
 
   render: function(){
-    //game.debug.body(player);
-    //layer.debug = true;
+    game.debug.body(player);
   },
 
   playerMovement: function(){
@@ -220,13 +278,15 @@ var playState2 = {
     //  Allow the player to jump if they are touching the ground.
     if(cursors.up.isDown && player.body.onFloor())
     {
-      player.body.velocity.y = -350;
+      player.body.velocity.y = -325;
       //Add Jump Sound
+      //Add Game Sound
       this.jumpSound = game.add.audio('jump');
       this.jumpSound.play();
     }
   },
-
+  //player movement variables there is velocity and animation. make a global variable called "lastDirection." If you let go of that key it will still have left in it
+  //It won't change until you hit right. Whatever direction you end in is what direction it will shoot.
   shoot: function(){
     if(shotTimer < game.time.now){
       shotTimer = game.time.now + 275;

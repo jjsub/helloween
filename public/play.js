@@ -32,13 +32,13 @@ var playState = {
     map.setCollision(5);
     map.setCollision(46);
     map.setCollisionBetween(60, 62);
-    map.setCollision(54);
     map.setCollision(49);
     map.setCollision(54);
     map.setCollision(60);
     map.setCollision(52);
     map.setCollision(47);
     map.setCollisionBetween(74, 76);
+    map.setCollision(32);
     //map.setCollisionB, 8etween(32, 47);
 
 
