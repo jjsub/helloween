@@ -24,9 +24,22 @@ var playState = {
     layer = map.createLayer('Level 1');
 
     //set collision for blocks
-    map.setCollisionByExclusion([7, 32, 35, 36, 47]);
-    //map.setCollision(7);
-    //map.setCollisionBetween(32, 47);
+    //map.setCollisionByExclusion([7, 32, 35, 36, 47]);, 
+    map.setCollisionBetween(8, 10);
+    map.setCollisionBetween(10, 13);
+    map.setCollisionBetween(16, 31);
+    map.setCollisionBetween(36, 43);
+    map.setCollision(5);
+    map.setCollision(46);
+    map.setCollisionBetween(60, 62);
+    map.setCollision(54);
+    map.setCollision(49);
+    map.setCollision(54);
+    map.setCollision(60);
+    map.setCollision(52);
+    map.setCollision(47);
+    map.setCollisionBetween(74, 76);
+    //map.setCollisionB, 8etween(32, 47);
 
 
     score = 0;
@@ -40,8 +53,9 @@ var playState = {
 
     //enable physics on player
     game.physics.arcade.enable(player);
-    player.body.width = 30;
-    player.body.height = 53;
+    player.anchor.setTo(0.5, 1.1);
+    player.body.width = 25;
+    player.body.height = 45;
 
     //player.body.tilePadding.set(32, 32);
     
@@ -49,10 +63,9 @@ var playState = {
     game.camera.follow(player);
 
     //player physics
-    //player.body.bounce.y = 0.2;
-
-    player.body.gravity.y = 1000;
     player.body.collideWorldBounds = true;
+    player.body.bounce.y = 0.1;
+    player.body.gravity.y = 300;
 
     //player walking left and right animations
     player.animations.add('left', [5, 6, 7], 10, true);
@@ -68,11 +81,13 @@ var playState = {
     map.createFromObjects('Enemies', 106, 'cthulu', 0, true, false, cthulus);
     map.createFromObjects('Enemies', 107, 'mummy', 0, true, false, mummies);
 
-    key = game.add.sprite(150, 500, 'key');
-    game.physics.arcade.enable(key);
-    key.enableBody = true;
+    keys = game.add.group();
+    keys.enableBody = true;
 
-   // map.createFromObjects('keys', 34, 'key', 0, true, false);
+    doors = game.add.group();
+    doors.enableBody = true;
+
+    map.createFromObjects('Key', 67, 'key', 0, true, false, keys);
 
     //monster movement time
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
@@ -101,9 +116,9 @@ var playState = {
 
     game.physics.arcade.overlap(player, cthulus, this.collideCthulu, null, this);
     game.physics.arcade.overlap(player, mummies, this.collideMummy, null, this);
-
-    game.physics.arcade.overlap(player, key, this.openDoor, null, this);
-    game.physics.arcade.overlap(player, door, this.nextLevel, null, this);
+    
+    game.physics.arcade.overlap(player, keys, this.openDoor, null, this);
+    game.physics.arcade.overlap(player, doors, this.nextLevel, null, this);
 
     game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
     game.physics.arcade.overlap(this.bullets, mummies, this.killMummy, null, this);
@@ -203,12 +218,10 @@ var playState = {
   //show door when player has key
   openDoor: function(player, key){
     key.destroy();
-    door = game.add.sprite(200, 500, 'door');
-    game.physics.arcade.enable(door);
-    door.enableBody = true;
     //Add Key Sound
     this.keySound = game.add.audio('key');
     this.keySound.play();
+    map.createFromObjects('Door', 36, 'door', 0, true, false, doors);
   },
 
   //go to next level when player goes through door
@@ -239,18 +252,8 @@ var playState = {
   },
 
   render: function(){
-   /* 
     game.debug.body(player);
     layer.debug = true;
-    mummies.forEach(function(m){
-      game.debug.body(m);
-    });
-
-    cthulus.forEach(function(c){
-      game.debug.body(c);
-    });
-   */
-
   },
 
   playerMovement: function(){
@@ -275,8 +278,9 @@ var playState = {
     //  Allow the player to jump if they are touching the ground.
     if(cursors.up.isDown && player.body.onFloor())
     {
-      player.body.velocity.y = -650;
+      player.body.velocity.y = -275;
       //Add Jump Sound
+      //Add Game Sound
       this.jumpSound = game.add.audio('jump');
       this.jumpSound.play();
     }
