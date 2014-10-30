@@ -89,7 +89,11 @@ var playState2 = {
     doors = game.add.group();
     doors.enableBody = true;
 
+    death = game.add.group();
+    death.enableBody = true;
+
     map.createFromObjects('Key', 77, 'key', 0, true, false, keys);
+    map.createFromObjects('Death', 70, 'death', 0, true, false, death);
 
     //monster movement time
     this.moveTimer = game.time.events.loop(1500, this.moveItems, this);
@@ -121,6 +125,7 @@ var playState2 = {
     
     game.physics.arcade.overlap(player, keys, this.openDoor, null, this);
     game.physics.arcade.overlap(player, doors, this.nextLevel, null, this);
+    game.physics.arcade.overlap(player, death, this.killPlayer, null, this);
 
     game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
     game.physics.arcade.overlap(this.bullets, mummies, this.killMummy, null, this);
@@ -184,6 +189,16 @@ var playState2 = {
     }, this)
   },
 
+
+  killPlayer: function(death, player){
+    this.deathSound = game.add.audio('death');
+    this.deathSound.play();
+    game.camera.reset();
+    game.state.restart();
+    this.gameSound.stop();
+    //game.state.start('play');
+  },
+
   killCthulu: function(bullet, cthulu){
     cthulu.kill();
     bullet.kill();
@@ -192,8 +207,8 @@ var playState2 = {
     this.killSound.play();
     score += 40;
     scoreText.setText('Score: ' + score);
-    var x = Math.floor(Math.random() * 600 - 32),
-        y = Math.floor(Math.random() * 600 - 90);
+    var x = cthulu.x,
+        y = cthulu.y;
     this.emitter.x = x;
     this.emitter.y = y;
     this.emitter.start(true, 2000, null, 10);
@@ -207,8 +222,8 @@ var playState2 = {
     this.killSound.play();
     score += 20;
     scoreText.text = 'Score: ' + score;
-    var x = Math.floor(Math.random() * 600 - 32),
-        y = Math.floor(Math.random() * 600 - 90);
+    var x = mummy.x,
+        y = mummy.y;
     this.emitter.x = x;
     this.emitter.y = y;
     this.emitter.start(true, 2000, null, 10);
@@ -231,6 +246,7 @@ var playState2 = {
   nextLevel: function(player, door){
     this.game.state.start('boss');
     this.gameSound.stop();
+    game.camera.reset();
   },
 
   restartLevel2: function(){
@@ -241,6 +257,7 @@ var playState2 = {
   collideCthulu: function(player, cthulu){
     player.kill();
     this.restartLevel2();
+    game.camera.reset();
     //Add Death Sound
     this.deathSound = game.add.audio('death');
     this.deathSound.play();
@@ -249,6 +266,7 @@ var playState2 = {
   collideMummy: function(player, mummy){
     player.kill();
     this.restartLevel2();
+    game.camera.reset();
     //Add Death Sound
     this.deathSound = game.add.audio('death');
     this.deathSound.play();
@@ -280,7 +298,7 @@ var playState2 = {
     //  Allow the player to jump if they are touching the ground.
     if(cursors.up.isDown && player.body.onFloor())
     {
-      player.body.velocity.y = -325;
+      player.body.velocity.y = -275;
       //Add Jump Sound
       //Add Game Sound
       this.jumpSound = game.add.audio('jump');
