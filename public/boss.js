@@ -4,6 +4,7 @@ var layer;
 var shotTimer = 0;
 var style = {fontSize: '32px', fill: '#fff'};
 var boss;
+var bossHealth = 10;
 var finalBoss = {
   //no preload needed
   create: function(){
@@ -26,6 +27,7 @@ var finalBoss = {
     player = game.add.sprite(793, 350, 'jack');
     player.width = 40;
     player.height = 53;
+    player.health = 100;
 
     //enable physics on player
     game.physics.arcade.enable(player);
@@ -43,18 +45,16 @@ var finalBoss = {
     game.camera.follow(player);
 
     //oogie the boss
-    boss = game.add.sprite(1200, 300, 'oogie');
+    boss = game.add.sprite(1200, 100, 'oogie');
     game.physics.arcade.enable(boss);
-    boss.body.gravity = 500;
+    boss.body.gravity.y = 500;
     boss.body.collideWorldBounds = true;
-    boss.body.velocity.x = -200;
-    console.log(boss.body.velocity);
 
-    boss.animations.add('left', [0, 1, 2, 3, 4, 5, 6, 7], 12, true);
-    boss.animations.add('right', [8, 9, 10, 11, 12, 13, 14], 12, true);
+    boss.animations.add('boogie', [0, 1, 2, 3, 4, 5, 6, 7], 17, true);
+    boss.animations.play('boogie');
   
     //boss timer
-    this.moveTimer = game.time.events.loop(1000, this.bossActions, this);
+    this.moveTimer = game.time.events.loop(700, this.bossActions, this);
 
     //game music
     this.gameSound = game.add.audio('ls1');
@@ -74,6 +74,9 @@ var finalBoss = {
     //game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
     game.physics.arcade.collide(player, layer);
     game.physics.arcade.collide(boss, layer);
+    game.physics.arcade.overlap(this.bullets, layer, this.killBullet, null, this);
+    game.physics.arcade.overlap(player, boss, this.hurtPlayer, null, this);
+    game.physics.arcade.overlap(this.bullets, boss, this.hurtBoss, null, this);
     cursors = game.input.keyboard.createCursorKeys();
 
     //animate player
@@ -83,12 +86,38 @@ var finalBoss = {
   bossActions: function(){
     var direction = Math.floor(Math.random() + .5);
     if(direction === 1){
-      boss.body.velocity.x += 200;
-      boss.animations.play('right');
+      boss.body.velocity.x += 300;
+      boss.body.velocity.y += -200;
     }else if(direction === 0){
-      boss.body.velocity.x -= 200;
-      boss.animations.play('left');
+      boss.body.velocity.x -= 300;
+      boss.body.velocity.y += -200;
     }
+  },
+
+  hurtBoss: function(boss, bullet){
+    bullet.kill();
+    bossHealth--;
+    this.killSound = game.add.audio('kill');
+    this.killSound.play();
+    if(bossHealth <= 0){
+      boss.kill();
+      this.gameSound.stop();
+      game.state.start('menu');
+    }
+  },
+
+  hurtPlayer: function(){
+      player.body.velocity.y = -300;
+      player.health--;
+      this.killSound = game.add.audio('kill');
+      this.killSound.play();
+      if(player.health <= 0){
+        player.kill();
+        this.gameSound.stop();
+        this.deathSound = game.add.audio('death');
+        this.deathSound.play();
+        game.state.start('menu');
+      }
   },
 
   killBullet: function(bullet){
@@ -96,12 +125,11 @@ var finalBoss = {
   },
   //go to next level when player goes through door
   nextLevel: function(player, door){
-    this.game.state.start('level2');
     this.gameSound.stop();
   },
 
   render: function(){
-    game.debug.body(boss);
+    //game.debug.body(boss);
     //game.debug.body(layer);
   },
 
