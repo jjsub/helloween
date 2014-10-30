@@ -211,6 +211,21 @@
                  "width":0,
                  "x":348,
                  "y":574
+                }, 
+                {
+                 "gid":67,
+                 "height":0,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":670,
+                 "y":150
                 }],
          "opacity":1,
          "type":"objectgroup",

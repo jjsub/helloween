@@ -39,8 +39,9 @@ var playState = {
 
     //enable physics on player
     game.physics.arcade.enable(player);
-    player.body.width = 60;
-    player.body.height = 73;
+    player.anchor.setTo(0.5, 0.8);
+    player.body.width = 25;
+    player.body.height = 50;
 
     //player.body.tilePadding.set(32, 32);
     
@@ -50,7 +51,7 @@ var playState = {
 
 
     //player physics
-    player.body.bounce.y = 0.2;
+    player.body.bounce.y = 0.1;
 
     player.body.gravity.y = 300;
     player.body.collideWorldBounds = true;
@@ -180,7 +181,7 @@ var playState = {
     //  Allow the player to jump if they are touching the ground.
     if(cursors.up.isDown && player.body.onFloor())
     {
-      player.body.velocity.y = -350;
+      player.body.velocity.y = -200;
       //Add Game Sound
       this.jumpSound = game.add.audio('jump');
       this.jumpSound.play();
