@@ -15,6 +15,8 @@ var loadState = {
     game.load.audio('ls2', 'assets/audio/Oogie Boogie Song.mp3', 'assets/audio/Oogie_Boogie_39_s_Song.ogg');
     //Game Sound lvl 3
     game.load.audio('ls3', 'assets/audio/17 - To the Rescue.mp3', 'assets/audio/17_-_To_the_Rescue.ogg');
+    //Game Sound boss
+    game.load.audio('Battle-theme', 'assets/audio/Battle-theme.ogg', 'assets/audio/Battle-theme.ogg');
     //Load in the jump sound
     game.load.audio('jump', 'assets/audio/SoundEffects/spin_jump-Brandino480-2020916281.wav');
     //Load in the shoot sound
@@ -38,6 +40,6 @@ var loadState = {
 
   create: function(){
     //when all assets are loaded, go to the menu state
-    this.game.state.start('play');
+    this.game.state.start('boss');
   }
 };

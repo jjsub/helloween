@@ -52,12 +52,12 @@ var finalBoss = {
 
     boss.animations.add('boogie', [0, 1, 2, 3, 4, 5, 6, 7], 17, true);
     boss.animations.play('boogie');
-  
+
     //boss timer
     this.moveTimer = game.time.events.loop(700, this.bossActions, this);
 
     //game music
-    this.gameSound = game.add.audio('ls1');
+    this.gameSound = game.add.audio('Battle-theme');
     this.gameSound.play();
 
     this.bullets = game.add.group();
