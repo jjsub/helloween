@@ -78,8 +78,12 @@ var playState = {
     mummies = game.add.group();
     mummies.enableBody = true;
 
+    death = game.add.group();
+    death.enableBody = true;
+
     map.createFromObjects('Enemies', 106, 'cthulu', 0, true, false, cthulus);
     map.createFromObjects('Enemies', 107, 'mummy', 0, true, false, mummies);
+    map.createFromObjects('Death', 44, 'death', 0, true, false, death);
 
     keys = game.add.group();
     keys.enableBody = true;
@@ -123,6 +127,7 @@ var playState = {
     game.physics.arcade.overlap(this.bullets, cthulus, this.killCthulu, null, this);
     game.physics.arcade.overlap(this.bullets, mummies, this.killMummy, null, this);
     game.physics.arcade.overlap(this.bullets, layer, this.killBullet, null, this);
+    game.physics.arcade.overlap(player, death, this.killPlayer, null, this);
 
     game.physics.arcade.collide(player, layer);
     cursors = game.input.keyboard.createCursorKeys();
@@ -179,6 +184,10 @@ var playState = {
         cthulu.animations.play('left');
       };
     }, this)
+  },
+
+  killPlayer: function(death, player){
+    this.restartGame();
   },
 
   killCthulu: function(bullet, cthulu){

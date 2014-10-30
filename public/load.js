@@ -31,10 +31,11 @@ var loadState = {
     game.load.image('level2', 'assets/tilemaps/cybernoid.png', 16, 16);
     game.load.image('key', '/img/key-clipart-key.png');
     game.load.image('door', '/img/Door.png');
+    game.load.image('death', '/img/Solid_Black.png');
   },
 
   create: function(){
     //when all assets are loaded, go to the menu state
-    this.game.state.start('level2');
+    this.game.state.start('play');
   }
 };
